@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    config:
+      name: web2-config
+      label: master
+      uri: http://localhost:3344

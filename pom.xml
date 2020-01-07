@@ -26,7 +26,11 @@
 
     <modules>
         <module>registry</module>
+        <module>gateway</module>
         <module>web1</module>
+        <module>core</module>
+        <module>web2</module>
+        <module>config</module>
     </modules>
 
     <dependencyManagement>
@@ -42,12 +46,111 @@
     </dependencyManagement>
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>appassembler-maven-plugin</artifactId>
+                    <version>1.10</version>
+                    <configuration>
+                        <!-- 生成linux, windows两种平台的执行脚本 -->
+                        <platforms>
+                            <platform>windows</platform>
+                            <platform>unix</platform>
+                        </platforms>
+                        <!-- 根目录 -->
+                        <assembleDirectory>${project.build.directory}/${service.name}</assembleDirectory>
+                        <!-- 打包的jar，以及maven依赖的jar放到这个目录里面 -->
+                        <repositoryName>lib</repositoryName>
+                        <!-- 可执行脚本的目录 -->
+                        <binFolder>bin</binFolder>
+                        <!-- 配置文件的目标目录 -->
+                        <configurationDirectory>conf</configurationDirectory>
+                        <!-- 拷贝配置文件到上面的目录中 -->
+                        <copyConfigurationDirectory>true</copyConfigurationDirectory>
+                        <!-- 从哪里拷贝配置文件 (默认src/main/config) -->
+                        <configurationSourceDirectory>src/main/resources</configurationSourceDirectory>
+                        <!-- lib目录中jar的存放规则，默认是${groupId}/${artifactId}的目录格式，flat表示直接把jar放到lib目录 -->
+                        <repositoryLayout>flat</repositoryLayout>
+                        <encoding>UTF-8</encoding>
+                        <logsDirectory>logs</logsDirectory>
+                        <tempDirectory>tmp</tempDirectory>
+                        <programs>
+                            <program>
+                                <id>${service.name}</id>
+                                <!-- 启动类 -->
+                                <mainClass>${main.class}</mainClass>
+                                <jvmSettings>
+                                    <extraArguments>
+                                        <extraArgument>-server</extraArgument>
+                                        <extraArgument>-Xmx1G</extraArgument>
+                                        <extraArgument>-Xms1G</extraArgument>
+                                        <extraArgument>-XX:MetaspaceSize=50m</extraArgument>
+                                        <extraArgument>-XX:+PrintGCDetails</extraArgument>
+                                        <extraArgument>-Xloggc:web1/logs/gc.log</extraArgument>
+                                        <extraArgument>-XX:+UseG1GC</extraArgument>
+                                        <extraArgument>-XX:MaxGCPauseMillis=200</extraArgument>
+                                    </extraArguments>
+                                </jvmSettings>
+                            </program>
+                        </programs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>assemble</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>assemble</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<fork>false</fork>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                        <delimiter>$</delimiter>
+                    </delimiters>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 </project>

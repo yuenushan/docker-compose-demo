@@ -1,0 +1,6 @@
+server:
+  port: 8001
+eureka:
+  instance:
+    hostname: registry1
+

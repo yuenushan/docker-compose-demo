@@ -11,6 +11,11 @@
     <name>registry</name>
     <description>Demo project for Spring Boot</description>
 
+    <properties>
+        <service.name>registry</service.name>
+        <main.class>com.demo.registry.RegistryApplication</main.class>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -29,5 +34,14 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

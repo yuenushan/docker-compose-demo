@@ -1,17 +1,40 @@
 version: '3'
 services:
   registry:
-    build: registry
+    image: openjdk:8-jdk-alpine
     ports:
       - "8081:8081"
     environment:
       TZ: "Asia/Shanghai"
+    volumes:
+      - ./registry/target/registry:/registry
+    command: ["sh", "/registry/bin/registry"]
   web1:
-    build: web1
+    image: openjdk:8-jdk-alpine
     ports:
-      - "8082:8082"
+      - "8082"
     environment:
       TZ: "Asia/Shanghai"
+    volumes:
+      - ./web1/target/web1:/web1
+      - ./entrypoint.sh:/entrypoint.sh
+#      - ./wait-for.sh:/wait-for.sh
+    command: sh /entrypoint.sh -d registry:8081,mysql:3306 -c 'sh /web1/bin/web1';
+#    command: sh wait-for.sh -d registry:8081, mysql:3306 -c 'sh /web1/bin/web1'
+#    command: ["sh", "/web1/bin/web1"]
+    pid: host
+#  registry:
+#    build: registry
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      TZ: "Asia/Shanghai"
+#  web1:
+#    build: web1
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      TZ: "Asia/Shanghai"
   mysql:
     image: mariadb
     ports:

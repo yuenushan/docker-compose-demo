@@ -65,3 +65,7 @@
 2019/12/16 23:50:14 [error] 66#66: *16 open() "/usr/share/nginx/html/eureka/js/wro.js" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /eureka/js/wro.js HTTP/1.1", host: "localhost:8000", referrer: "http://localhost:8000/aaa/"
 2019/12/16 23:50:14 [error] 66#66: *17 open() "/usr/share/nginx/html/eureka/css/wro.css" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /eureka/css/wro.css HTTP/1.1", host: "localhost:8000", referrer: "http://localhost:8000/aaa/"
 2019/12/16 23:50:45 [notice] 67#67: signal process started
+2019/12/20 15:24:50 [error] 7#7: *2 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost:8000", referrer: "http://localhost:8000/aaa/hello"
+2019/12/20 16:32:29 [error] 7#7: *2 connect() failed (113: No route to host) while connecting to upstream, client: 172.19.0.1, server: , request: "GET /aaa/hello HTTP/1.1", upstream: "http://172.19.0.5:8082/hello", host: "localhost:8000"
+2019/12/24 14:46:37 [error] 6#6: *1 connect() failed (113: No route to host) while connecting to upstream, client: 172.19.0.1, server: , request: "GET /aaa/hello HTTP/1.1", upstream: "http://172.19.0.5:8082/hello", host: "localhost:8000"
+2019/12/24 15:19:08 [error] 6#6: *2 connect() failed (111: Connection refused) while connecting to upstream, client: 172.19.0.1, server: , request: "GET /aaa/hello HTTP/1.1", upstream: "http://172.19.0.5:8082/hello", host: "localhost:8000"
